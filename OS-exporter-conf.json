@@ -1,0 +1,20 @@
+{
+   "objectserver":[
+      {
+         "osname":"NCMOS",
+         "host":"localhost",
+         "ipv4":"192.168.12.66",
+         "port":"8080",
+         "user":"netcool",
+         "pw":"123456"
+      },
+      {
+         "osname":"AGG_Pblla",
+         "host":"ostest",
+         "ipv4":"192.168.11.321",
+         "port":"4100",
+         "user":"netcool2",
+         "pw":"123456"
+      }
+   ]
+}
