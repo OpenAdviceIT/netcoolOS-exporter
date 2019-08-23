@@ -40,7 +40,8 @@ OS_EVENTS_MINOR = Gauge('os_events_minor_total', 'Total minor events', ['hostser
 OS_EVENTS_WARNING = Gauge('os_events_warning_total', 'Total warning events', ['hostserver', 'objectserver'])
 OS_EVENTS_INDETERMINATE = Gauge('os_events_indeterminate_total', 'Total indeterminate events', ['hostserver', 'objectserver'])
 OS_EVENTS_CLEAR = Gauge('os_events_clear_total', 'Total clear events', ['hostserver', 'objectserver'])
-OS_COLS_TOTAL = Gauge('os_columns_total', 'Number of objectserver columns', ['hostserver', 'objectserver'])
+OS_COLUMNS_TOTAL = Gauge('os_columns_total', 'Number of objectserver alerts.status columns', ['hostserver', 'objectserver'])
+OS_COLUMNS_DETAILS = Gauge('os_columns_details', 'Schema Details from objecserver alerts.status', ['hostserver', 'objectserver', 'columnname', 'type', 'key'])
 OS_NAME = Info('os_name', 'Objecserver name')
 OS_ALERTS_DETAILS_TOTAL = Gauge('os_alerts_details_total', 'Alerts Details Total', ['hostserver', 'objectserver'])
 OS_ALERTS_JOURNAL_TOTAL = Gauge('os_alerts_journal_total', 'Alerts Journal Total', ['hostserver', 'objectserver'])
@@ -75,11 +76,13 @@ OS_PROFILES_NUMSUBMITS_NUM = Gauge('os_profiles_numsubmits_num', 'Number of subm
 OS_PROFILES_TOTALPARSETIME_SEC = Gauge('os_profiles_totalparsetime_sec', 'Records the total amount of time spent parsing commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
 OS_PROFILES_RESOLVETIME_SEC = Gauge('os_profiles_totalresolvetime_sec', 'Records the total amount of time spent resolving commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
 OS_PROFILES_EXECTIME_SEC = Gauge('os_profiles_totalexectime_sec', 'Records the total amount of time spent running commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
-# OS Exportr Selfmonitoring
-OSXPORTER_SELF_TOTALTHREADS_NUM = Gauge('osexporter_self_totalthreads_num', 'Active Thread objects')
-OSXPORTER_SELF_OSSCRAPETIMETOTAL_SEC = Gauge('osexporter_self_osscrapetimetotal_sec', 'Time needed to scrape all data from one objectserver', ['threadname', 'hostserver', 'restport'])
-OSXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC = Gauge('osexporter_self_osscrapetimealertsstatus_sec', 'Time needed to scrape all alerts.status from one objectserver', ['threadname', 'hostserver', 'restport'])
-OSXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM = Gauge('osexporter_self_osscrapehtmlreturncode_num', 'The HTML Returncode from the Objectserver Rest API', ['threadname', 'hostserver', 'restport'])
+
+# OS Exporter Selfmonitoring
+OSEXPORTER_SELF_TOTALTHREADS_NUM = Gauge('osexporter_self_totalthreads_num', 'Active Thread objects')
+OSEXPORTER_SELF_OSSCRAPETIMETOTAL_SEC = Gauge('osexporter_self_osscrapetimetotal_sec', 'Time needed to scrape all data from one objectserver', ['threadname', 'hostserver', 'restport'])
+OSEXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC = Gauge('osexporter_self_osscrapetimealertsstatus_sec', 'Time needed to scrape all alerts.status from one objectserver', ['threadname', 'hostserver', 'restport'])
+OSEXPORTER_SELF_OSSCRAPETIMEALERTSSTATUSCOLUMNS_SEC = Gauge('osexporter_self_osscrapetimealertstatuscolumns_sec', 'Time needed to scrape all alerts.status Field Details from one objectserver', ['threadname', 'hostserver', 'restport'])
+OSEXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM = Gauge('osexporter_self_osscrapehtmlreturncode_num', 'The HTML Returncode from the Objectserver Rest API', ['threadname', 'hostserver', 'restport'])
 logger.info('Finished setting prometheus metric definitions')
 
 
@@ -126,45 +129,67 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
     logger.info('Start gathering data from ' + osRest + ':' + osRestPort + ' every ' + str(osReqFreq) + ' seconds')
     session = requests.Session()
     while True:
-        logger.info(threadName + ': Start gathering data from ' + osRest + ' for the ' + str(requestLoopCounter) + ' time')
+        logger.info(threadName + ': Start gathering alerts.status data from ' + osRest + ' for the ' + str(requestLoopCounter) + ' time')
         startTime = time.time()
         try:
-            alertsStatus = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status?collist=Severity', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
-            logger.debug(threadName + ': HTML Return Code from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status' + ' is: ' + str(alertsStatus.status_code))
-            OSXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM.labels(threadName, osRest, osRestPort).set(alertsStatus.status_code)
+            alertsStatusSeverity = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select Severity, count(*) as Total from alerts.status group by Severity'}, auth=(osLoginUser, osLoginPW))
+            logger.debug(threadName + ': HTML Return Code from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory' + ' is: ' + str(alertsStatusSeverity.status_code))
+            OSEXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM.labels(threadName, osRest, osRestPort).set(alertsStatusSeverity.status_code)
+
         except:
             logger.error('Getting alert.status from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status failed', exc_info=True)
         try:
-            osAlertsStatus = alertsStatus.json()
-            OS_EVENTS_TOTAL.labels(osRest, osAlertsStatus['rowset']['osname']).set(len(osAlertsStatus['rowset']['rows']))
-            OS_COLS_TOTAL.labels(osRest, osAlertsStatus['rowset']['osname']).set(len(osAlertsStatus['rowset']['coldesc']))
-            OS_NAME.info({'name': osAlertsStatus['rowset']['osname']})
+            osAlertsStatusSeverity = alertsStatusSeverity.json()
 
-            for event in osAlertsStatus['rowset']['rows']:
+            OS_NAME.info({'name': osAlertsStatusSeverity['rowset']['osname']})
+
+            for event in osAlertsStatusSeverity['rowset']['rows']:
                 if event['Severity'] == 5:
-                    osEventsCritical += 1
+                    osEventsCritical = event['Total']
                 if event['Severity'] == 4:
-                    osEventsMajor += 1
+                    osEventsMajor = event['Total']
                 if event['Severity'] == 3:
-                    osEventsMinor += 1
+                    osEventsMinor = event['Total']
                 if event['Severity'] == 2:
-                    osEventsWarning += 1
+                    osEventsWarning = event['Total']
                 if event['Severity'] == 1:
-                    osEventsIndeterminate += 1
+                    osEventsIndeterminate = event['Total']
                 if event['Severity'] == 0:
-                    osEventsClear += 1
-
-            OS_EVENTS_CRITICAL.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsCritical)
-            OS_EVENTS_MAJOR.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsMajor)
-            OS_EVENTS_MINOR.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsMinor)
-            OS_EVENTS_WARNING.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsWarning)
-            OS_EVENTS_INDETERMINATE.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsIndeterminate)
-            OS_EVENTS_CLEAR.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsClear)
+                    osEventsClear = event['Total']
+            osEventsTotal = osEventsCritical + osEventsMajor + osEventsMinor + osEventsWarning + osEventsIndeterminate + osEventsClear
+            OS_EVENTS_TOTAL.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsTotal)
+            OS_EVENTS_CRITICAL.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsCritical)
+            OS_EVENTS_MAJOR.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsMajor)
+            OS_EVENTS_MINOR.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsMinor)
+            OS_EVENTS_WARNING.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsWarning)
+            OS_EVENTS_INDETERMINATE.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsIndeterminate)
+            OS_EVENTS_CLEAR.labels(osRest, osAlertsStatusSeverity['rowset']['osname']).set(osEventsClear)
             alertsStatusTime = time.time() - startTime
-            OSXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC.labels(threadName, osRest, osRestPort).set(alertsStatusTime)
+            OSEXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC.labels(threadName, osRest, osRestPort).set(alertsStatusTime)
             logger.debug(threadName + ': Finished gathering data data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status in ' + str(alertsStatusTime) + ' seconds')
         except:
             logger.error('Converting JSON into alerts.status metrics failed', exc_info=True)
+
+        # Gathering alerts.status Schema Details
+        if requestLoopCounter % 10 == 0:
+            startTimeAlertsStatusColumns = time.time()
+            try:
+                alertsColumnsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'describe alerts.status'}, auth=(osLoginUser, osLoginPW))
+                logger.debug(threadName + ': HTML Return Code for alerts.status Schema from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory' + ' is: ' + str(alertsColumnsDetails.status_code))
+
+            except:
+                logger.error('Getting alert.status Schema Data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory failed', exc_info=True)
+            try:
+                osAlertsColumnsDetails = alertsColumnsDetails.json()
+                OS_COLUMNS_TOTAL.labels(osRest, osAlertsColumnsDetails['rowset']['osname']).set(osAlertsColumnsDetails['rowset']['affectedRows'])
+                for column in osAlertsColumnsDetails['rowset']['rows']:
+                    OS_COLUMNS_DETAILS.labels(osRest, osAlertsColumnsDetails['rowset']['osname'], column['ColumnName'], column['Type'], column['Key']).set(column['Size'])
+
+                alertsColumnsTime = time.time() - startTimeAlertsStatusColumns
+                OSEXPORTER_SELF_OSSCRAPETIMEALERTSSTATUSCOLUMNS_SEC.labels(threadName, osRest, osRestPort).set(alertsColumnsTime)
+                logger.debug(threadName + ': Finished gathering alerts.status Schema data data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory in ' + str(alertsStatusTime) + ' seconds')
+            except:
+                logger.error('Converting JSON into alerts.status Schema metrics failed', exc_info=True)
 
         # Processing Profiles
         startProfilesTime = time.time()
@@ -193,23 +218,27 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
 
         # Processing Details
         try:
-            alertsDetails = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+            alertsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.details'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
         except:
             logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details failed', exc_info=True)
         try:
             osAlertsDetails = alertsDetails.json()
-            OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(osAlertsDetails['rowset']['affectedRows'])
+            for detail in osAlertsDetails['rowset']['rows']:
+                detailsTotal = detail['rowcount']
+            OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(detailsTotal)
         except:
             logger.error('Converting converting JSON for details metrics failed')
 
         # Processsing Journal entrys
         try:
-            alertsJournal = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/journal', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+            alertsJournal = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.journal'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
         except:
-            logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/journal failed', exc_info=True)
+            logger.error('Getting data alerts.journal data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory failed', exc_info=True)
         try:
             osAlertsJournal = alertsJournal.json()
-            OS_ALERTS_JOURNAL_TOTAL.labels(osRest, osAlertsJournal['rowset']['osname']).set(osAlertsJournal['rowset']['affectedRows'])
+            for journal in osAlertsJournal['rowset']['rows']:
+                journalTotal = journal['rowcount']
+            OS_ALERTS_JOURNAL_TOTAL.labels(osRest, osAlertsJournal['rowset']['osname']).set(journalTotal)
         except:
             logger.error('Converting converting JSON into journal metrics failed')
 
@@ -275,7 +304,7 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
         except:
             logger.error('Converting converting JSON into trigger_stats metrics failed')
         totalTime = time.time() - startTime
-        OSXPORTER_SELF_OSSCRAPETIMETOTAL_SEC.labels(threadName, osRest, osRestPort).set(totalTime)
+        OSEXPORTER_SELF_OSSCRAPETIMETOTAL_SEC.labels(threadName, osRest, osRestPort).set(totalTime)
         logger.info(threadName + ': Finished gathering data data from ' + osRest + ':' + osRestPort + ' for the ' + str(requestLoopCounter) + ' time in ' + str(totalTime) + ' seconds')
         requestLoopCounter = requestLoopCounter + 1
         if exitFlag:
@@ -287,7 +316,7 @@ if __name__ == '__main__':
     # Reading Config File
     logger.info('Reading initial config from os_exporter_cfg.yaml')
     try:
-        with open("os_exporter_cfg.yaml", 'r') as ymlfile:
+        with open("os_exporter_cfg.yml", 'r') as ymlfile:
             exportercfg = yaml.load(ymlfile)
     except:
         logger.error('Error Reading configfile')
@@ -323,7 +352,7 @@ if __name__ == '__main__':
     # main loop
     while True:
         threadActiveCounts = threading.activeCount()
-        OSXPORTER_SELF_TOTALTHREADS_NUM.set(threadActiveCounts)
+        OSEXPORTER_SELF_TOTALTHREADS_NUM.set(threadActiveCounts)
         logger.debug('Active Thread objects: ' + str(threadActiveCounts))
         logger.debug('Thread objects in callers thread control: ' + str(threading.enumerate()))
         time.sleep(30)
