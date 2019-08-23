@@ -7,13 +7,13 @@ import threading
 import stat
 import datetime
 import sys
+import yaml
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # create a file handler
-handler = logging.FileHandler('osExporter.log')
-handler.setLevel(logging.INFO)
+handler = logging.FileHandler('/log/osExporter.log')
 
 # create a logging format
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -25,14 +25,9 @@ logger.addHandler(handler)
 logger.info('Starting objecteserver_exporter')
 logger.info('Start gathering configuration parameters')
 # ObjectServer Exporter Configuration (will be replaces by reading a configfile)
-exporterPort = 9898
-osRestDomain1 = '192.168.12.66'
-osRestPort = '8080'
-osUser = 'netcool'
-osPW = 'oadvice'
 osLogPath = ''
 osReqFreq = 30
-conTimeout = 10  # must be lower tha osReqFreq
+conTimeout = 35
 exitFlag = 0
 logger.info('Finished gathering configuration parameters')
 
@@ -80,6 +75,11 @@ OS_PROFILES_NUMSUBMITS_NUM = Gauge('os_profiles_numsubmits_num', 'Number of subm
 OS_PROFILES_TOTALPARSETIME_SEC = Gauge('os_profiles_totalparsetime_sec', 'Records the total amount of time spent parsing commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
 OS_PROFILES_RESOLVETIME_SEC = Gauge('os_profiles_totalresolvetime_sec', 'Records the total amount of time spent resolving commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
 OS_PROFILES_EXECTIME_SEC = Gauge('os_profiles_totalexectime_sec', 'Records the total amount of time spent running commands for this client.', ['hostserver', 'objectserver', 'connectionid', 'uid', 'appname', 'hostname'])
+# OS Exportr Selfmonitoring
+OSXPORTER_SELF_TOTALTHREADS_NUM = Gauge('osexporter_self_totalthreads_num', 'Active Thread objects')
+OSXPORTER_SELF_OSSCRAPETIMETOTAL_SEC = Gauge('osexporter_self_osscrapetimetotal_sec', 'Time needed to scrape all data from one objectserver', ['threadname', 'hostserver', 'restport'])
+OSXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC = Gauge('osexporter_self_osscrapetimealertsstatus_sec', 'Time needed to scrape all alerts.status from one objectserver', ['threadname', 'hostserver', 'restport'])
+OSXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM = Gauge('osexporter_self_osscrapehtmlreturncode_num', 'The HTML Returncode from the Objectserver Rest API', ['threadname', 'hostserver', 'restport'])
 logger.info('Finished setting prometheus metric definitions')
 
 
@@ -98,6 +98,20 @@ class myOSDataThread (threading.Thread):
         getOsData(self.name, self.restURL, self.restPort, self.restUser, self.restPW)
         logging.info("Exiting Thread" + self.name)
 
+# template, replacing all hardcoded GET requests with one generic
+
+
+def genericOsGet(threadName, osRest, osRestPort, osLoginUser, osLoginPW, getURL):
+    response = "toBeDefinied"
+    return response
+
+# template, replacing all hardcoded POST requests with one generic
+
+
+def genericOsSqlPost(threadName, osRest, osRestPort, osLoginUser, osLoginPW, SQL):
+    response = session.post('http://' + osRest + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'describe alerts.status'}, auth=(osLoginUser, osLoginPW))
+    return response
+
 
 def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
     osName = ''
@@ -112,10 +126,12 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
     logger.info('Start gathering data from ' + osRest + ':' + osRestPort + ' every ' + str(osReqFreq) + ' seconds')
     session = requests.Session()
     while True:
-        logger.info(threadName + ': Start gathering data data from ' + osRest + ' for the ' + str(requestLoopCounter) + ' time')
-        start_time = time.time()
+        logger.info(threadName + ': Start gathering data from ' + osRest + ' for the ' + str(requestLoopCounter) + ' time')
+        startTime = time.time()
         try:
-            alertsStatus = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+            alertsStatus = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status?collist=Severity', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+            logger.debug(threadName + ': HTML Return Code from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status' + ' is: ' + str(alertsStatus.status_code))
+            OSXPORTER_SELF_OSSCRAPEHTMLRETURNCODE_NUM.labels(threadName, osRest, osRestPort).set(alertsStatus.status_code)
         except:
             logger.error('Getting alert.status from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status failed', exc_info=True)
         try:
@@ -144,10 +160,14 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
             OS_EVENTS_WARNING.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsWarning)
             OS_EVENTS_INDETERMINATE.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsIndeterminate)
             OS_EVENTS_CLEAR.labels(osRest, osAlertsStatus['rowset']['osname']).set(osEventsClear)
+            alertsStatusTime = time.time() - startTime
+            OSXPORTER_SELF_OSSCRAPETIMEALERTSSTATUS_SEC.labels(threadName, osRest, osRestPort).set(alertsStatusTime)
+            logger.debug(threadName + ': Finished gathering data data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/status in ' + str(alertsStatusTime) + ' seconds')
         except:
-            logger.error('Converting JSON into alerts.status metrics failed')
+            logger.error('Converting JSON into alerts.status metrics failed', exc_info=True)
 
         # Processing Profiles
+        startProfilesTime = time.time()
         try:
             profiles = session.get('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/catalog/profiles', auth=(osLoginUser, osLoginPW), timeout=conTimeout)
         except:
@@ -167,6 +187,7 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
                 OS_PROFILES_TOTALPARSETIME_SEC.labels(osRest, osProfiles['rowset']['osname'], profile['ConnectionID'], profile['UID'], profile['AppName'], profile['HostName']).set(profile['TotalParseTime'])
                 OS_PROFILES_RESOLVETIME_SEC.labels(osRest, osProfiles['rowset']['osname'], profile['UID'], profile['ConnectionID'], profile['AppName'], profile['HostName']).set(profile['TotalResolveTime'])
                 OS_PROFILES_EXECTIME_SEC.labels(osRest, osProfiles['rowset']['osname'], profile['UID'], profile['ConnectionID'], profile['AppName'], profile['HostName']).set(profile['TotalExecTime'])
+                profilesTime = time.time() - startTime
         except:
             logger.error('Converting converting JSON into profile metrics failed')
 
@@ -218,7 +239,7 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
                 OS_MEMSTORE_SOFTLIMIT_BYTES.labels(osRest, osMemstores['rowset']['osname'], memstore['StoreName'], memstore['IsProtected']).set(memstore['SoftLimit'])
                 OS_MEMSTORE_USEDBYTES_BYTES.labels(osRest, osMemstores['rowset']['osname'], memstore['StoreName'], memstore['IsProtected']).set(memstore['UsedBytes'])
         except:
-            print.error('Converting converting JSON into memstore metrics failed')
+            logger.error('Converting converting JSON into memstore metrics failed')
 
         # Trigger Processing
         osTriggerActiveCount = 0
@@ -253,7 +274,9 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
             OS_TRIGGER_INACTIVE_TOTAL.labels(osRest, osTriggerStats['rowset']['osname']).set(osTriggerInactiveCount)
         except:
             logger.error('Converting converting JSON into trigger_stats metrics failed')
-        logger.info(threadName + ': Finished gathering data data from ' + osRest + ':' + osRestPort + ' for the ' + str(requestLoopCounter) + ' time in ' + str(time.time() - start_time) + ' seconds')
+        totalTime = time.time() - startTime
+        OSXPORTER_SELF_OSSCRAPETIMETOTAL_SEC.labels(threadName, osRest, osRestPort).set(totalTime)
+        logger.info(threadName + ': Finished gathering data data from ' + osRest + ':' + osRestPort + ' for the ' + str(requestLoopCounter) + ' time in ' + str(totalTime) + ' seconds')
         requestLoopCounter = requestLoopCounter + 1
         if exitFlag:
             threadName.exit()
@@ -261,31 +284,46 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW):
 
 
 if __name__ == '__main__':
+    # Reading Config File
+    logger.info('Reading initial config from os_exporter_cfg.yaml')
+    try:
+        with open("os_exporter_cfg.yaml", 'r') as ymlfile:
+            exportercfg = yaml.load(ymlfile)
+    except:
+        logger.error('Error Reading configfile')
+
+    logger.info('Finished reading the following configuration:')
+    # logging config from config file
+    logger.info('os_exporter config: ' + str(exportercfg['os_exporter']))
+    logger.info('objectserver config: ' + str(exportercfg['objectservers']))
+
+    exporterPort = exportercfg['os_exporter']['port']
+
     # Start up the server to expose the metrics.
     logger.info('Starting HTTP Server on port: ' + str(exporterPort))
     try:
         start_http_server(exporterPort)
     except:
         logger.error('HTTP Server not started on port ' + str(exporterPort), exc_info=True)
-    # Generate some requests.
-    # getOsData(osRestDomain1 + ':' + osRestPort, osUser, osPW)
 
-    # create new threads
-    logger.info('Start creating threads')
-    thread1 = myOSDataThread(1, 'Thread1', osRestDomain1, osRestPort, osUser, osPW)
-    thread2 = myOSDataThread(2, 'Thread2', '192.168.12.64', '8080', 'root', '')
-    logger.info('Finished creating threads')
-
-    # start threads
+    # create new threads and start them
+    oscounter = 0
     logger.info('Starting threads')
-    thread1.start()
-    thread2.start()
+    for objectserver in exportercfg['objectservers']:
+        oscounter = oscounter + 1
+        threadname = 'thread' + str(oscounter)
+        thread = myOSDataThread(oscounter, threadname, str(objectserver['address']), str(objectserver['port']), str(objectserver['user']), str(objectserver['pw']))
+        thread.start()
 
     logger.info('Threads started')
     logger.info('Active Thread objects: ' + str(threading.activeCount()))
     logger.info('Thread objects in callers thread control: ' + str(threading.currentThread()))
-    logger.info(threading.enumerate())
+    logger.info('Starting Main Loop')
 
-    # Waiting for threads to end
-    # thread1.join()
-    # thread2.join()
+    # main loop
+    while True:
+        threadActiveCounts = threading.activeCount()
+        OSXPORTER_SELF_TOTALTHREADS_NUM.set(threadActiveCounts)
+        logger.debug('Active Thread objects: ' + str(threadActiveCounts))
+        logger.debug('Thread objects in callers thread control: ' + str(threading.enumerate()))
+        time.sleep(30)
