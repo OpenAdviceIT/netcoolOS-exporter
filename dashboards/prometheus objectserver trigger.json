@@ -1,0 +1,2185 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 6,
+  "iteration": 1567587485269,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_total{objectserver=\"$OSname\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Trigger Total",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 12,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_active_total{objectserver=\"$OSname\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Trigger activ",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": 10,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_inactive_total{objectserver=\"$OSname\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Trigger inactive",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "format": "s",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 0
+      },
+      "id": 11,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(topk(1,os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"}))",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Slowest Trigger",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "columns": [],
+      "datasource": "Prometheus",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "links": [],
+      "options": {},
+      "pageSize": 5,
+      "scroll": false,
+      "showHeader": true,
+      "sort": {
+        "col": 3,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Timestamp",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "Seconds",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 6,
+          "pattern": "Value",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Triggername",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "trigger",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "topk(5,sum(os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"}) by (objectserver, trigger))",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top 5 slowest Trigger",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "Number of raises during the last period for the $trigger trigger on objectserver $OSname",
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 4
+      },
+      "id": 14,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodnumraises{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger raises",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "How often $trigger trigger was fired during the last period for the  on objectserver $OSname",
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 4
+      },
+      "id": 16,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger fired",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "Current execution time for the $trigger trigger on objectserver $OSname",
+      "format": "s",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "id": 13,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger  current time",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 4,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk(1,os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{trigger}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Slowest Trigger",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "Average number of raises during the last period for the $trigger trigger on objectserver $OSname",
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 8
+      },
+      "id": 18,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodnumraises{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger raises average",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "How often $trigger trigger was fired during the last period for the  on objectserver $OSname",
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 8
+      },
+      "id": 17,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger fired average",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "decimals": null,
+      "description": "Average execution time for the $trigger trigger on objectserver $OSname",
+      "format": "s",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 8
+      },
+      "id": 15,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "#3274D9",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": true
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=\"$trigger\"}[360m]",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "1,2",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "$trigger average time",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "aliasColors": {
+        "fires": "light-red",
+        "raises": "light-blue",
+        "seconds": "semi-dark-green"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "sort": "current",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "seconds",
+          "linewidth": 2,
+          "yaxis": 2
+        },
+        {
+          "alias": "fires",
+          "fill": 0
+        },
+        {
+          "alias": "raises",
+          "fill": 0
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "os_trigger_stats_periodnumraises{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "raises",
+          "refId": "C"
+        },
+        {
+          "expr": "os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "fires",
+          "refId": "B"
+        },
+        {
+          "expr": "os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=\"$trigger\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "seconds",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "time / raise / fires during last period for $trigger trigger",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "counts",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "s",
+          "label": "seconds",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "ibm",
+    "netcool",
+    "omnibus",
+    "tivoli",
+    "trigger",
+    "objectserver"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "AGG_P_A",
+          "value": "AGG_P_A"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(objectserver)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Objectserver",
+        "multi": false,
+        "name": "OSname",
+        "options": [
+          {
+            "selected": true,
+            "text": "AGG_P_A",
+            "value": "AGG_P_A"
+          }
+        ],
+        "query": "label_values(objectserver)",
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "10.57.64.101",
+          "value": "10.57.64.101"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(hostserver)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "hostserver",
+        "multi": false,
+        "name": "HostServer",
+        "options": [],
+        "query": "label_values(hostserver)",
+        "refresh": 1,
+        "regex": ".*",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "isNone": true,
+          "tags": [],
+          "text": "status_updates",
+          "value": "status_updates"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(trigger)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Trigger",
+        "multi": false,
+        "name": "trigger",
+        "options": [
+          {
+            "selected": false,
+            "text": "DBN_AssignNetcoolEvents",
+            "value": "DBN_AssignNetcoolEvents"
+          },
+          {
+            "selected": false,
+            "text": "DBN_CNMSAck",
+            "value": "DBN_CNMSAck"
+          },
+          {
+            "selected": false,
+            "text": "DBN_CNMSClear",
+            "value": "DBN_CNMSClear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_DevOnly_SetImpFlag1_0_On_Insert",
+            "value": "DBN_DevOnly_SetImpFlag1_0_On_Insert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_NetActAck",
+            "value": "DBN_NetActAck"
+          },
+          {
+            "selected": false,
+            "text": "DBN_NetActClear",
+            "value": "DBN_NetActClear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_NetActDeack",
+            "value": "DBN_NetActDeack"
+          },
+          {
+            "selected": false,
+            "text": "DBN_NetActSyncClear",
+            "value": "DBN_NetActSyncClear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_RcAckDeack",
+            "value": "DBN_RcAckDeack"
+          },
+          {
+            "selected": false,
+            "text": "DBN_RcClear",
+            "value": "DBN_RcClear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetAckTime",
+            "value": "DBN_SetAckTime"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetAckTime_ClearTime_On_Insert",
+            "value": "DBN_SetAckTime_ClearTime_On_Insert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetClearTime",
+            "value": "DBN_SetClearTime"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetFirstEventTime",
+            "value": "DBN_SetFirstEventTime"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetImpFlag2_0_On_Reinsert",
+            "value": "DBN_SetImpFlag2_0_On_Reinsert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetLastEventTime",
+            "value": "DBN_SetLastEventTime"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetNOC_Default_On_Insert",
+            "value": "DBN_SetNOC_Default_On_Insert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetOwnerGID_1001_to_1000",
+            "value": "DBN_SetOwnerGID_1001_to_1000"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetOwnerGID_1001_to_1000_on_update",
+            "value": "DBN_SetOwnerGID_1001_to_1000_on_update"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetOwnerGID_DevOnly_OnInsert",
+            "value": "DBN_SetOwnerGID_DevOnly_OnInsert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetOwnerGID_DevOnly_OnUpdate",
+            "value": "DBN_SetOwnerGID_DevOnly_OnUpdate"
+          },
+          {
+            "selected": false,
+            "text": "DBN_SetOwnerGID_Selfmonitoring",
+            "value": "DBN_SetOwnerGID_Selfmonitoring"
+          },
+          {
+            "selected": false,
+            "text": "DBN_U2000Ack",
+            "value": "DBN_U2000Ack"
+          },
+          {
+            "selected": false,
+            "text": "DBN_U2000Clear",
+            "value": "DBN_U2000Clear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_U2000Deack",
+            "value": "DBN_U2000Deack"
+          },
+          {
+            "selected": false,
+            "text": "DBN_U2000SyncClear",
+            "value": "DBN_U2000SyncClear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_UpdateLastEventTime",
+            "value": "DBN_UpdateLastEventTime"
+          },
+          {
+            "selected": false,
+            "text": "DBN_UpdateLastEventTime_On_Reinsert",
+            "value": "DBN_UpdateLastEventTime_On_Reinsert"
+          },
+          {
+            "selected": false,
+            "text": "DBN_Visible_NSS_RexTest",
+            "value": "DBN_Visible_NSS_RexTest"
+          },
+          {
+            "selected": false,
+            "text": "DBN_backup_failed",
+            "value": "DBN_backup_failed"
+          },
+          {
+            "selected": false,
+            "text": "DBN_backup_succeeded",
+            "value": "DBN_backup_succeeded"
+          },
+          {
+            "selected": false,
+            "text": "DBN_connection_watch_connect",
+            "value": "DBN_connection_watch_connect"
+          },
+          {
+            "selected": false,
+            "text": "DBN_connection_watch_disconnect",
+            "value": "DBN_connection_watch_disconnect"
+          },
+          {
+            "selected": false,
+            "text": "DBN_delete_clears",
+            "value": "DBN_delete_clears"
+          },
+          {
+            "selected": false,
+            "text": "DBN_delete_older_than_seven_days",
+            "value": "DBN_delete_older_than_seven_days"
+          },
+          {
+            "selected": false,
+            "text": "DBN_generic_clear",
+            "value": "DBN_generic_clear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_generic_clear_gsmr_dms",
+            "value": "DBN_generic_clear_gsmr_dms"
+          },
+          {
+            "selected": false,
+            "text": "DBN_gsmr_trunk_clear",
+            "value": "DBN_gsmr_trunk_clear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_log_inserted_event",
+            "value": "DBN_log_inserted_event"
+          },
+          {
+            "selected": false,
+            "text": "DBN_log_updated_event",
+            "value": "DBN_log_updated_event"
+          },
+          {
+            "selected": false,
+            "text": "DBN_new_row_escalate_probewatch",
+            "value": "DBN_new_row_escalate_probewatch"
+          },
+          {
+            "selected": false,
+            "text": "DBN_omcr_acknowledged_events",
+            "value": "DBN_omcr_acknowledged_events"
+          },
+          {
+            "selected": false,
+            "text": "DBN_omcr_clear_acfault",
+            "value": "DBN_omcr_clear_acfault"
+          },
+          {
+            "selected": false,
+            "text": "DBN_omcr_clear_cessation",
+            "value": "DBN_omcr_clear_cessation"
+          },
+          {
+            "selected": false,
+            "text": "DBN_osossyncclear",
+            "value": "DBN_osossyncclear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_otrs_nc_clear",
+            "value": "DBN_otrs_nc_clear"
+          },
+          {
+            "selected": false,
+            "text": "DBN_save_OrigOwnerGID",
+            "value": "DBN_save_OrigOwnerGID"
+          },
+          {
+            "selected": false,
+            "text": "DBN_save_X733Severity",
+            "value": "DBN_save_X733Severity"
+          },
+          {
+            "selected": false,
+            "text": "DBN_write_event_to_history_log",
+            "value": "DBN_write_event_to_history_log"
+          },
+          {
+            "selected": false,
+            "text": "IBM_dedup_journal",
+            "value": "IBM_dedup_journal"
+          },
+          {
+            "selected": false,
+            "text": "accelerated_inserts",
+            "value": "accelerated_inserts"
+          },
+          {
+            "selected": false,
+            "text": "agg_deduplication",
+            "value": "agg_deduplication"
+          },
+          {
+            "selected": false,
+            "text": "agg_new_row",
+            "value": "agg_new_row"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_class",
+            "value": "audit_config_alter_class"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_col_visual",
+            "value": "audit_config_alter_col_visual"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_conv",
+            "value": "audit_config_alter_conv"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_menu",
+            "value": "audit_config_alter_menu"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_object",
+            "value": "audit_config_alter_object"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_prompt",
+            "value": "audit_config_alter_prompt"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_property",
+            "value": "audit_config_alter_property"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_alter_tool",
+            "value": "audit_config_alter_tool"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_class",
+            "value": "audit_config_create_class"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_col_visual",
+            "value": "audit_config_create_col_visual"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_conv",
+            "value": "audit_config_create_conv"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_menu",
+            "value": "audit_config_create_menu"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_object",
+            "value": "audit_config_create_object"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_prompt",
+            "value": "audit_config_create_prompt"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_create_tool",
+            "value": "audit_config_create_tool"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_class",
+            "value": "audit_config_drop_class"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_col_visual",
+            "value": "audit_config_drop_col_visual"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_conv",
+            "value": "audit_config_drop_conv"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_menu",
+            "value": "audit_config_drop_menu"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_object",
+            "value": "audit_config_drop_object"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_prompt",
+            "value": "audit_config_drop_prompt"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_drop_tool",
+            "value": "audit_config_drop_tool"
+          },
+          {
+            "selected": false,
+            "text": "audit_config_permission_denied",
+            "value": "audit_config_permission_denied"
+          },
+          {
+            "selected": false,
+            "text": "automatic_backup",
+            "value": "automatic_backup"
+          },
+          {
+            "selected": false,
+            "text": "backup_counterpart_down",
+            "value": "backup_counterpart_down"
+          },
+          {
+            "selected": false,
+            "text": "backup_counterpart_up",
+            "value": "backup_counterpart_up"
+          },
+          {
+            "selected": false,
+            "text": "backup_failed",
+            "value": "backup_failed"
+          },
+          {
+            "selected": false,
+            "text": "backup_startup",
+            "value": "backup_startup"
+          },
+          {
+            "selected": false,
+            "text": "backup_state_integrity",
+            "value": "backup_state_integrity"
+          },
+          {
+            "selected": false,
+            "text": "backup_succeeded",
+            "value": "backup_succeeded"
+          },
+          {
+            "selected": false,
+            "text": "clean_details_table",
+            "value": "clean_details_table"
+          },
+          {
+            "selected": false,
+            "text": "clean_journal_table",
+            "value": "clean_journal_table"
+          },
+          {
+            "selected": false,
+            "text": "connection_watch_connect",
+            "value": "connection_watch_connect"
+          },
+          {
+            "selected": false,
+            "text": "connection_watch_disconnect",
+            "value": "connection_watch_disconnect"
+          },
+          {
+            "selected": false,
+            "text": "dedup_status_inserts",
+            "value": "dedup_status_inserts"
+          },
+          {
+            "selected": false,
+            "text": "deduplicate_details",
+            "value": "deduplicate_details"
+          },
+          {
+            "selected": false,
+            "text": "deduplicate_iduc_stats",
+            "value": "deduplicate_iduc_stats"
+          },
+          {
+            "selected": false,
+            "text": "deduplication",
+            "value": "deduplication"
+          },
+          {
+            "selected": false,
+            "text": "delete_clears",
+            "value": "delete_clears"
+          },
+          {
+            "selected": false,
+            "text": "delete_stats",
+            "value": "delete_stats"
+          },
+          {
+            "selected": false,
+            "text": "details_inserts",
+            "value": "details_inserts"
+          },
+          {
+            "selected": false,
+            "text": "disable_inactive_users",
+            "value": "disable_inactive_users"
+          },
+          {
+            "selected": false,
+            "text": "disable_user",
+            "value": "disable_user"
+          },
+          {
+            "selected": false,
+            "text": "disconnect_all_clients",
+            "value": "disconnect_all_clients"
+          },
+          {
+            "selected": false,
+            "text": "disconnect_iduc_missed",
+            "value": "disconnect_iduc_missed"
+          },
+          {
+            "selected": false,
+            "text": "escalate_off",
+            "value": "escalate_off"
+          },
+          {
+            "selected": false,
+            "text": "expire",
+            "value": "expire"
+          },
+          {
+            "selected": false,
+            "text": "flash_not_ack",
+            "value": "flash_not_ack"
+          },
+          {
+            "selected": false,
+            "text": "generic_clear",
+            "value": "generic_clear"
+          },
+          {
+            "selected": false,
+            "text": "iduc_messages_tblclean",
+            "value": "iduc_messages_tblclean"
+          },
+          {
+            "selected": false,
+            "text": "iduc_stats_insert",
+            "value": "iduc_stats_insert"
+          },
+          {
+            "selected": false,
+            "text": "iduc_stats_update",
+            "value": "iduc_stats_update"
+          },
+          {
+            "selected": false,
+            "text": "journal_inserts",
+            "value": "journal_inserts"
+          },
+          {
+            "selected": false,
+            "text": "mail_on_critical",
+            "value": "mail_on_critical"
+          },
+          {
+            "selected": false,
+            "text": "new_row",
+            "value": "new_row"
+          },
+          {
+            "selected": false,
+            "text": "new_status_inserts",
+            "value": "new_status_inserts"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecip_dedup_after",
+            "value": "oslcreg_ecip_dedup_after"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecip_dedup_before",
+            "value": "oslcreg_ecip_dedup_before"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecip_delete_after",
+            "value": "oslcreg_ecip_delete_after"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecip_new",
+            "value": "oslcreg_ecip_new"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecip_update_after",
+            "value": "oslcreg_ecip_update_after"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecipreg_delete",
+            "value": "oslcreg_ecipreg_delete"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_ecipregs_new",
+            "value": "oslcreg_ecipregs_new"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_sp_delete_before",
+            "value": "oslcreg_sp_delete_before"
+          },
+          {
+            "selected": false,
+            "text": "oslcreg_sp_new",
+            "value": "oslcreg_sp_new"
+          },
+          {
+            "selected": false,
+            "text": "pass_deletes",
+            "value": "pass_deletes"
+          },
+          {
+            "selected": false,
+            "text": "profiler_group_report",
+            "value": "profiler_group_report"
+          },
+          {
+            "selected": false,
+            "text": "profiler_report",
+            "value": "profiler_report"
+          },
+          {
+            "selected": false,
+            "text": "profiler_toggle",
+            "value": "profiler_toggle"
+          },
+          {
+            "selected": false,
+            "text": "registry_new_probe",
+            "value": "registry_new_probe"
+          },
+          {
+            "selected": false,
+            "text": "registry_probe_disconnect",
+            "value": "registry_probe_disconnect"
+          },
+          {
+            "selected": false,
+            "text": "registry_reinsert_probe",
+            "value": "registry_reinsert_probe"
+          },
+          {
+            "selected": false,
+            "text": "registry_update_probe",
+            "value": "registry_update_probe"
+          },
+          {
+            "selected": false,
+            "text": "reset_user",
+            "value": "reset_user"
+          },
+          {
+            "selected": false,
+            "text": "resync_complete",
+            "value": "resync_complete"
+          },
+          {
+            "selected": false,
+            "text": "resync_finished",
+            "value": "resync_finished"
+          },
+          {
+            "selected": false,
+            "text": "scala_insert",
+            "value": "scala_insert"
+          },
+          {
+            "selected": false,
+            "text": "scala_reinsert",
+            "value": "scala_reinsert"
+          },
+          {
+            "selected": false,
+            "text": "security_watch_security_failure",
+            "value": "security_watch_security_failure"
+          },
+          {
+            "selected": false,
+            "text": "service_insert",
+            "value": "service_insert"
+          },
+          {
+            "selected": false,
+            "text": "service_reinsert",
+            "value": "service_reinsert"
+          },
+          {
+            "selected": false,
+            "text": "service_update",
+            "value": "service_update"
+          },
+          {
+            "selected": false,
+            "text": "sm_block_events_from_gateway",
+            "value": "sm_block_events_from_gateway"
+          },
+          {
+            "selected": false,
+            "text": "sm_check_probe_heartbeats",
+            "value": "sm_check_probe_heartbeats"
+          },
+          {
+            "selected": false,
+            "text": "sm_client_time",
+            "value": "sm_client_time"
+          },
+          {
+            "selected": false,
+            "text": "sm_connections",
+            "value": "sm_connections"
+          },
+          {
+            "selected": false,
+            "text": "sm_create_journal_on_severity_change",
+            "value": "sm_create_journal_on_severity_change"
+          },
+          {
+            "selected": false,
+            "text": "sm_db_stats",
+            "value": "sm_db_stats"
+          },
+          {
+            "selected": false,
+            "text": "sm_dbops_stats",
+            "value": "sm_dbops_stats"
+          },
+          {
+            "selected": false,
+            "text": "sm_deduplication_grade",
+            "value": "sm_deduplication_grade"
+          },
+          {
+            "selected": false,
+            "text": "sm_delete_clears_display",
+            "value": "sm_delete_clears_display"
+          },
+          {
+            "selected": false,
+            "text": "sm_expire_display_events",
+            "value": "sm_expire_display_events"
+          },
+          {
+            "selected": false,
+            "text": "sm_log_alerts_inserts",
+            "value": "sm_log_alerts_inserts"
+          },
+          {
+            "selected": false,
+            "text": "sm_log_alerts_reinserts",
+            "value": "sm_log_alerts_reinserts"
+          },
+          {
+            "selected": false,
+            "text": "sm_memstore",
+            "value": "sm_memstore"
+          },
+          {
+            "selected": false,
+            "text": "sm_process_top_classes",
+            "value": "sm_process_top_classes"
+          },
+          {
+            "selected": false,
+            "text": "sm_process_top_nodes",
+            "value": "sm_process_top_nodes"
+          },
+          {
+            "selected": false,
+            "text": "sm_process_top_probes",
+            "value": "sm_process_top_probes"
+          },
+          {
+            "selected": false,
+            "text": "sm_time_to_display_severity",
+            "value": "sm_time_to_display_severity"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_classes_deduplication",
+            "value": "sm_top_classes_deduplication"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_classes_insert",
+            "value": "sm_top_classes_insert"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_classes_reinsert",
+            "value": "sm_top_classes_reinsert"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_nodes_deduplication",
+            "value": "sm_top_nodes_deduplication"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_nodes_insert",
+            "value": "sm_top_nodes_insert"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_nodes_reinsert",
+            "value": "sm_top_nodes_reinsert"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_probes_deduplication",
+            "value": "sm_top_probes_deduplication"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_probes_insert",
+            "value": "sm_top_probes_insert"
+          },
+          {
+            "selected": false,
+            "text": "sm_top_probes_reinsert",
+            "value": "sm_top_probes_reinsert"
+          },
+          {
+            "selected": false,
+            "text": "sm_triggers",
+            "value": "sm_triggers"
+          },
+          {
+            "selected": false,
+            "text": "state_change",
+            "value": "state_change"
+          },
+          {
+            "selected": false,
+            "text": "statistics_cleanup",
+            "value": "statistics_cleanup"
+          },
+          {
+            "selected": false,
+            "text": "statistics_gather",
+            "value": "statistics_gather"
+          },
+          {
+            "selected": false,
+            "text": "stats_reset",
+            "value": "stats_reset"
+          },
+          {
+            "selected": true,
+            "text": "status_updates",
+            "value": "status_updates"
+          },
+          {
+            "selected": false,
+            "text": "system_watch_shutdown",
+            "value": "system_watch_shutdown"
+          },
+          {
+            "selected": false,
+            "text": "system_watch_startup",
+            "value": "system_watch_startup"
+          },
+          {
+            "selected": false,
+            "text": "timestamp_inserts",
+            "value": "timestamp_inserts"
+          },
+          {
+            "selected": false,
+            "text": "trigger_stat_reports",
+            "value": "trigger_stat_reports"
+          },
+          {
+            "selected": false,
+            "text": "update_service_affecting_events",
+            "value": "update_service_affecting_events"
+          },
+          {
+            "selected": false,
+            "text": "webtop_compatibility",
+            "value": "webtop_compatibility"
+          }
+        ],
+        "query": "label_values(trigger)",
+        "refresh": 0,
+        "regex": ".*",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "15s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "prometheus objectserver trigger",
+  "uid": "QsvGieeik",
+  "version": 5
+}
