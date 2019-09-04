@@ -10,9 +10,10 @@ objectservers:
       port: 8080
       user: toor
       pw: supersecret
+      probeSelfMon: 0
     - objectserver2: AGG_B
       address: 127.0.0.1
       port: 8080
       user: funktionaluser
       pw: password
-
+      probeSelfMon: 0
