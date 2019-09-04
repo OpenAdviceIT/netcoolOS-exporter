@@ -1,2 +1,2 @@
-# netcoolOS-exporter
-Prometheus exporter for IBM Tilvoli Netcool Objectserver
+# Objectserver exporter
+Prometheus exporter for IBM Tivoli Netcool Objectserver
