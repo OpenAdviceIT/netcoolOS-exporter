@@ -59,7 +59,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=~\".+\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=~\".+\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{storename}}",
@@ -170,7 +170,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"master_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"master_store\"}/100)",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"master_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"master_store\"}/100)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -234,21 +234,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"master_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"master_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Used bytes",
           "refId": "A"
         },
         {
-          "expr": "os_memstore_hardlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"master_store\"}",
+          "expr": "os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"master_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Hardlimit",
           "refId": "B"
         },
         {
-          "expr": "os_memstore_softlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"master_store\"}",
+          "expr": "os_memstore_softlimit_bytes{objectserver=\"$OSname\",storename=\"master_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Softlimit",
@@ -359,7 +359,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"table_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"table_store\"}/100)",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"table_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"table_store\"}/100)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -423,21 +423,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"table_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"table_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Used bytes",
           "refId": "A"
         },
         {
-          "expr": "os_memstore_hardlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"table_store\"}",
+          "expr": "os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"table_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Hardlimit",
           "refId": "B"
         },
         {
-          "expr": "os_memstore_softlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"table_store\"}",
+          "expr": "os_memstore_softlimit_bytes{objectserver=\"$OSname\",storename=\"table_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Softlimit",
@@ -548,7 +548,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"temp_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}/100)",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}/100)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -612,21 +612,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"temp_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Used bytes",
           "refId": "A"
         },
         {
-          "expr": "os_memstore_hardlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"temp_store\"}",
+          "expr": "os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Hardlimit",
           "refId": "B"
         },
         {
-          "expr": "os_memstore_softlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"temp_store\"}",
+          "expr": "os_memstore_softlimit_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Softlimit",
@@ -737,7 +737,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"virtual_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}/100)",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}/(os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}/100)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -801,21 +801,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"virtual_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Used bytes",
           "refId": "A"
         },
         {
-          "expr": "os_memstore_hardlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"virtual_store\"}",
+          "expr": "os_memstore_hardlimit_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Hardlimit",
           "refId": "B"
         },
         {
-          "expr": "os_memstore_softlimit_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"virtual_store\"}",
+          "expr": "os_memstore_softlimit_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Softlimit",
