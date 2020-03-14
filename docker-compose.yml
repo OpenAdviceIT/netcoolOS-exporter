@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+        objectserver_exporter:
+                image: objectserver_exporter:latest
+                container_name: objectserver_exporter
+                hostname: objectserver_exporter
+                volumes:
+                        - /opt/os_exporter/cfg:/cfg
+                        - /opt/os_exporter/log:/log
+                          #command:
+                          #- '--config.file=/etc/prometheus/prometheus.yml'
+                ports:
+                        - "9898:9898"
