@@ -1,7 +1,7 @@
 os_exporter:
   port: 9898
   reqfreq: 30
-  contimeout: 35
+  contimeout: 5
   logpath: test
   loglevel: debug
 objectservers:
@@ -12,8 +12,8 @@ objectservers:
       pw: supersecret
       probeSelfMon: 0
       profileDetails: 0
-      ImpactSelfMonitoring: 1
-      WebGUISelfMonitoring: 1
+      ImpactSelfMonitoring: 0
+      WebGUISelfMonitoring: 0
     - objectserver2: AGG_B
       address: 127.0.0.1
       port: 8080
