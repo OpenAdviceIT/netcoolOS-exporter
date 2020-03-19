@@ -83,7 +83,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_columns_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_columns_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -167,7 +167,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_events_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{osname}}",
@@ -251,7 +251,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_alerts_details_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_alerts_details_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -335,7 +335,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_alerts_journal_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_alerts_journal_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -426,7 +426,7 @@
       "pluginVersion": "6.2.2",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"master_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"master_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -496,7 +496,7 @@
       "pluginVersion": "6.2.2",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"table_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"table_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -553,7 +553,7 @@
       "pluginVersion": "6.2.2",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"temp_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"temp_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -610,7 +610,7 @@
       "pluginVersion": "6.2.2",
       "targets": [
         {
-          "expr": "os_memstore_usedbytes_bytes{hostserver=\"$HostServer\",objectserver=\"$OSname\",storename=\"virtual_store\"}",
+          "expr": "os_memstore_usedbytes_bytes{objectserver=\"$OSname\",storename=\"virtual_store\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -684,7 +684,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_connections_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_connections_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -769,7 +769,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_profiles_total_num{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_profiles_total_num{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -855,7 +855,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(os_profiles_maxsqltime_sec{hostserver=\"$HostServer\",objectserver=\"$OSname\"})",
+          "expr": "max(os_profiles_maxsqltime_sec{objectserver=\"$OSname\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -941,7 +941,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(os_profiles_periodsqltime_sec{hostserver=\"$HostServer\",objectserver=\"$OSname\"})",
+          "expr": "max(os_profiles_periodsqltime_sec{objectserver=\"$OSname\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1008,21 +1008,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_events_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Events",
           "refId": "A"
         },
         {
-          "expr": "os_alerts_details_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_alerts_details_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Details",
           "refId": "B"
         },
         {
-          "expr": "os_alerts_journal_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_alerts_journal_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Journal",
@@ -1143,28 +1143,28 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_events_critical_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_critical_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Critical",
           "refId": "C"
         },
         {
-          "expr": "os_events_major_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_major_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Major",
           "refId": "A"
         },
         {
-          "expr": "os_events_minor_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_minor_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Minor",
           "refId": "B"
         },
         {
-          "expr": "os_events_warning_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_warning_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1172,14 +1172,14 @@
           "refId": "F"
         },
         {
-          "expr": "os_events_indeterminate_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_indeterminate_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Indeterminate",
           "refId": "D"
         },
         {
-          "expr": "os_events_clear_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_events_clear_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Clear",
@@ -1268,7 +1268,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_connections_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_connections_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "connections",
@@ -1511,7 +1511,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_trigger_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_trigger_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1595,7 +1595,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_trigger_active_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_trigger_active_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1679,7 +1679,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "os_trigger_inactive_total{hostserver=\"$HostServer\",objectserver=\"$OSname\"}",
+          "expr": "os_trigger_inactive_total{objectserver=\"$OSname\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1777,7 +1777,7 @@
       ],
       "targets": [
         {
-          "expr": "topk(10,sum (os_trigger_stats_periodtime_sec{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"}) by (objectserver, trigger))",
+          "expr": "topk(10,sum (os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"}) by (objectserver, trigger))",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -1854,7 +1854,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(os_trigger_stats_periodtime_sec{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"})",
+          "expr": "sum(os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1938,7 +1938,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(os_trigger_stats_periodnumraises{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"})",
+          "expr": "sum(os_trigger_stats_periodnumraises{objectserver=\"$OSname\",trigger=~\".+\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -2022,7 +2022,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(os_trigger_stats_periodnumfires{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"})",
+          "expr": "sum(os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=~\".+\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -2086,7 +2086,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(10,max without(active)(os_trigger_stats_periodtime_sec{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"}))",
+          "expr": "topk(10,max without(active)(os_trigger_stats_periodtime_sec{objectserver=\"$OSname\",trigger=~\".+\"}))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{trigger}}",
@@ -2176,7 +2176,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(10,max without (active)(os_trigger_stats_periodnumraises{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\"}))",
+          "expr": "topk(10,max without (active)(os_trigger_stats_periodnumraises{objectserver=\"$OSname\",trigger=~\".+\"}))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{trigger}}",
@@ -2266,7 +2266,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk(10,max without(active)(os_trigger_stats_periodnumfires{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\".+\",trigger!=\"status_updates\",trigger!=\"state_change\"}))",
+          "expr": "topk(10,max without(active)(os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=~\".+\",trigger!=\"status_updates\",trigger!=\"state_change\"}))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{trigger}}",
@@ -2356,7 +2356,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "os_trigger_stats_periodnumfires{hostserver=\"$HostServer\",objectserver=\"$OSname\",trigger=~\"status_updates|state_change\"}",
+          "expr": "os_trigger_stats_periodnumfires{objectserver=\"$OSname\",trigger=~\"status_updates|state_change\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,

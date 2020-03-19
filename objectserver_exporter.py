@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # create a file handler
-handler = logging.FileHandler('osExporter.log')
+handler = logging.FileHandler('/log/osExporter.log')
 
 # create a logging format
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -528,7 +528,7 @@ if __name__ == '__main__':
     # Reading Config File
     logger.info('Reading initial config from os_exporter_cfg.yml')
     try:
-        with open("os_exporter_cfg.yml", 'r') as ymlfile:
+        with open("/cfg/os_exporter_cfg.yml", 'r') as ymlfile:
             exportercfg = yaml.load(ymlfile)
     except:
         logger.error('Error Reading configfile')
