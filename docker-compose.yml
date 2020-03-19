@@ -2,7 +2,7 @@ version: "3"
 
 services:
         objectserver_exporter:
-                image: objectserver_exporter:0.5.0
+                image: objectserver_exporter:v0.5.4
                 container_name: objectserver_exporter
                 hostname: objectserver_exporter
                 volumes:
