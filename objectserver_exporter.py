@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # create a file handler
+# handler = logging.FileHandler('osExporter.log')
 handler = logging.FileHandler('/log/osExporter.log')
 
 # create a logging format
@@ -31,6 +32,10 @@ osLogPath = ''
 osReqFreq = 30
 conTimeout = 5
 exitFlag = 0
+osArgProfileDetails = 0
+osArgProbeSelfMon = 0
+osArgImpactSelfMonitoring = 0
+osArgWebGUISelfMonitoring = 0
 logger.info('Finished gathering configuration parameters')
 
 # Prometheus metric definitions
@@ -46,9 +51,11 @@ OS_COLUMNS_TOTAL = Gauge('os_columns_total', 'Number of objectserver alerts.stat
 OS_COLUMNS_DETAILS = Gauge('os_columns_details', 'Schema Details from objecserver alerts.status', ['hostserver', 'objectserver', 'columnname', 'type', 'key'])
 OS_ALERTS_DETAILS_TOTAL = Gauge('os_alerts_details_total', 'Alerts Details Total', ['hostserver', 'objectserver'])
 OS_ALERTS_JOURNAL_TOTAL = Gauge('os_alerts_journal_total', 'Alerts Journal Total', ['hostserver', 'objectserver'])
+
 OS_CONNECTIONS_TOTAL = Gauge('os_connections_total', 'Objectserver Connections Total', ['hostserver', 'objectserver'])
 OS_CONNECTIONS_ISREALTIME = Gauge('os_connections_isrealtime', 'Objectserver Connections isRealTime Bool', ['hostserver', 'objectserver', 'logname', 'hostname', 'connectionappname', 'appdescription'])
 OS_CONNECTIONS_CONNECTTIME = Gauge('os_connections_connecttime', 'Objectserver Connections Connecttime Total', ['hostserver', 'objectserver', 'logname', 'hostname', 'connectionappname', 'appdescription'])
+
 OS_TRIGGER_TOTAL = Gauge('os_trigger_total', 'Total Number of Trigger in Objectserver', ['hostserver', 'objectserver'])
 OS_TRIGGER_ACTIVE_TOTAL = Gauge('os_trigger_active_total', 'Total Number of active trigger in Objectserver', ['hostserver', 'objectserver'])
 OS_TRIGGER_INACTIVE_TOTAL = Gauge('os_trigger_inactive_total', 'Total Number of inactive trigger in Objectserver', ['hostserver', 'objectserver'])
@@ -62,9 +69,11 @@ OS_TRIGGER_STATS_NUMRAISES = Gauge('os_trigger_stats_numraises', 'Number of rais
 OS_TRIGGER_STATS_NUMFIRES = Gauge('os_trigger_stats_numfires', 'Number of fires', ['hostserver', 'objectserver', 'trigger', 'active'])
 OS_TRIGGER_STATS_MAXTIME_SEC = Gauge('os_trigger_stats_maxtime_sec', 'Maximum time in sec', ['hostserver', 'objectserver', 'trigger', 'active'])
 OS_TRIGGER_STATS_TOTALTIME_SEC = Gauge('os_trigger_stats_totaltime_sec', 'Total time in sec', ['hostserver', 'objectserver', 'trigger', 'active'])
+
 OS_MEMSTORE_HARDLIMIT_BYTES = Gauge('os_memstore_hardlimit_bytes', 'Hardlimit in bytes for memstore', ['hostserver', 'objectserver', 'storename', 'isprotected'])
 OS_MEMSTORE_SOFTLIMIT_BYTES = Gauge('os_memstore_softlimit_bytes', 'Softlimit in bytes for memstore', ['hostserver', 'objectserver', 'storename', 'isprotected'])
 OS_MEMSTORE_USEDBYTES_BYTES = Gauge('os_memstore_usedbytes_bytes', 'Used bytes for memstore', ['hostserver', 'objectserver', 'storename', 'isprotected'])
+
 OS_PROFILES_TOTAL_NUM = Gauge('os_profiles_total_num', 'Numer of profiles', ['hostserver', 'objectserver'])
 OS_PROFILES_LASTSQLTIME_SEC = Gauge('os_profiles_lastsqltime_sec', 'Last measured SQL Time', ['hostserver', 'objectserver', 'appname', 'hostname'])
 #OS_PROFILES_MINSQLTIME_SEC = Gauge('os_profiles_minsqltime_sec', 'Minimum measured SQL Time', ['hostserver', 'objectserver', 'appname', 'hostname'])
@@ -77,6 +86,7 @@ OS_PROFILES_NUMSUBMITS_NUM = Gauge('os_profiles_numsubmits_num', 'Number of subm
 OS_PROFILES_TOTALPARSETIME_SEC = Gauge('os_profiles_totalparsetime_sec', 'Records the total amount of time spent parsing commands for this client.', ['hostserver', 'objectserver', 'appname', 'hostname'])
 OS_PROFILES_RESOLVETIME_SEC = Gauge('os_profiles_totalresolvetime_sec', 'Records the total amount of time spent resolving commands for this client.', ['hostserver', 'objectserver', 'appname', 'hostname'])
 OS_PROFILES_EXECTIME_SEC = Gauge('os_profiles_totalexectime_sec', 'Records the total amount of time spent running commands for this client.', ['hostserver', 'objectserver', 'appname', 'hostname'])
+
 #OS_MASTERSTATS_STATTIME_SEC = Gauge('os_masterstats_stattime_sec', 'The time that the statistics are collected.', ['hostserver', 'objectserver'])
 OS_MASTERSTATS_CLIENTS_NUM = Gauge('os_masterstats_clients_num', 'The total number of clients (for example, desktops) connected to the ObjectServer.', ['hostserver', 'objectserver'])
 OS_MASTERSTATS_REALTIME_NUM = Gauge('os_masterstats_realtime_num', 'The number of real-time clients connected to the ObjectServer. Desktops and gateways use IDUC and are real-time connections.', ['hostserver', 'objectserver'])
@@ -104,26 +114,28 @@ OS_MASTERPROBESTATS_CPUTIME_SEC = Gauge('os_masterprobestats_cputime_sec', 'The 
 OS_MASTERPROBESTATS_PROBEMEMORY_NUM = Gauge('os_masterprobestats_probememory_num', 'The uptime of the probe in seconds', ['hostserver', 'objectserver', 'probeagent', 'probehost'])
 
 # Impact SelfMonitoring
-OS_IMPACT_QUEUE_SIZE_NUM = Gauge('os_impact_queue_size_num','Queue Size of an Impact',['hostname','objectserver','queuename'])
-OS_IMPACT_HEAP_USED_NUM = Gauge('os_impact_heap_used_num','Heap memory use by Impact in Megabyte',['hostname','objectserver'])
-OS_IMPACT_HEAP_MAX_NUM = Gauge('os_impact_heap_max_num','Maximum heap size available for Impact',['hostname','objectserver'])
-OS_IMPACT_SYSTEM_FREE_MEM_AIVALABLE_NUM = Gauge('os_impact_system_free_mem_available_num','Free memory available on impact server',['hostname','objectserver'])
+OS_IMPACT_QUEUE_SIZE_NUM = Gauge('os_impact_queue_size_num','Queue Size of an Impact',['impacthost','objectserver','queuename'])
+OS_IMPACT_HEAP_USED_NUM = Gauge('os_impact_heap_used_num','Heap memory use by Impact in Megabyte',['impacthost','objectserver'])
+OS_IMPACT_HEAP_MAX_NUM = Gauge('os_impact_heap_max_num','Maximum heap size available for Impact',['impacthost','objectserver'])
+OS_IMPACT_SYSTEM_FREE_MEM_AIVALABLE_NUM = Gauge('os_impact_system_free_mem_available_num','Free memory available on impact server',['impacthost','objectserver'])
 
 # WebGUI SelfMonitoring
-OS_WEBGUI_SQL_AVG_RESPONSE_SEC = Gauge('os_webgui_sql_avg_response_sec','Average SQL response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_SQL_MAX_RESPONSE_SEC = Gauge('os_webgui_sql_sec_response_sec','Maximum SQL response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_EVENT_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_event_data_service_avg_response_sec','Average event data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_EVENT_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_event_data_service_max_response_sec','Maximum event data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_event_summary_data_service_avg_response_sec','Average event summary data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_event_summary_data_service_max_response_sec','Maximum event summary data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_JVM_MAX_NUM = Gauge('os_webgui_jvm_max_num','Maximum JVM memory available in MB',['hostname','objectserver'])
-OS_WEBGUI_JVM_USAGE_NUM = Gauge('os_webgui_jvm_usage_num','JVM memory usage in MB',['hostname','objectserver'])
-OS_WEBGUI_METRIC_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_metric_data_service_max_response_sec','Maximum metric data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_METRIC_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_metric_data_service_avg_response_sec','Average metric data service response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_DATASOURCE_CACHE_SIZE_NUM = Gauge('os_webgui_datasource_cache_size_num','Datasource cache size',['hostname','objectserver','datasource'])
-OS_WEBGUI_DATASOURCE_CACHE_HITRATE_PC = Gauge('os_webgui_datasource_cache_hitrate_pc','Datasource cache hitrate per cent',['hostname','objectserver','datasource'])
-OS_WEBGUI_SECURITY_REPOSITORY_AVG_RESPONSE_SEC = Gauge('os_webgui_security_repository_avg_response_sec','Average security repository response time in seconds',['hostname','objectserver'])
-OS_WEBGUI_SECURITY_REPOSITORY_MAX_RESPONSE_SEC = Gauge('os_webgui_security_repository_max_response_sec','Maximum security repository response time in seconds',['hostname','objectserver'])
+OS_WEBGUI_SQL_AVG_RESPONSE_SEC = Gauge('os_webgui_sql_avg_response_sec','Average SQL response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_SQL_MAX_RESPONSE_SEC = Gauge('os_webgui_sql_max_response_sec','Maximum SQL response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_EVENT_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_event_data_service_avg_response_sec','Average event data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_EVENT_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_event_data_service_max_response_sec','Maximum event data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_event_summary_data_service_avg_response_sec','Average event summary data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_event_summary_data_service_max_response_sec','Maximum event summary data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_JVM_MAX_NUM = Gauge('os_webgui_jvm_max_num','Maximum JVM memory available in MB',['webguihost','objectserver'])
+OS_WEBGUI_JVM_USAGE_NUM = Gauge('os_webgui_jvm_usage_num','JVM memory usage in MB',['webguihost','objectserver'])
+OS_WEBGUI_METRIC_DATA_SERVICE_MAX_RESPONSE_SEC = Gauge('os_webgui_metric_data_service_max_response_sec','Maximum metric data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_METRIC_DATA_SERVICE_AVG_RESPONSE_SEC = Gauge('os_webgui_metric_data_service_avg_response_sec','Average metric data service response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_DATASOURCE_CACHE_SIZE_NUM = Gauge('os_webgui_datasource_cache_size_num','Datasource cache size',['webguihost','objectserver','datasource'])
+OS_WEBGUI_DATASOURCE_CACHE_HITRATE_PC = Gauge('os_webgui_datasource_cache_hitrate_pc','Datasource cache hitrate per cent',['webguihost','objectserver','datasource'])
+OS_WEBGUI_SECURITY_REPOSITORY_AVG_RESPONSE_SEC = Gauge('os_webgui_security_repository_avg_response_sec','Average security repository response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_SECURITY_REPOSITORY_MAX_RESPONSE_SEC = Gauge('os_webgui_security_repository_max_response_sec','Maximum security repository response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_VMM_AVG_RESPONSE_SEC = Gauge('os_webgui_vmm_avg_response_sec','Average vmm response time in seconds',['webguihost','objectserver'])
+OS_WEBGUI_VMM_MAX_RESPONSE_SEC = Gauge('os_webgui_vmm_max_response_sec','Maximum vmm response time in seconds',['webguihost','objectserver'])
 
 # OS Exporter Selfmonitoring
 OSEXPORTER_SELF_TOTALTHREADS_NUM = Gauge('osexporter_self_totalthreads_num', 'Active Thread objects')
@@ -326,23 +338,25 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW, osProbeSel
             profiles = {}
             osProfiles = {}
 
-            # Processing Details
-            try:
-                alertsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.details'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
-            except:
-                logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details failed', exc_info=True)
-            try:
-                osAlertsDetails = alertsDetails.json()
-                for detail in osAlertsDetails['rowset']['rows']:
-                    detailsTotal = detail['rowcount']
-                OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(detailsTotal)
-            except:
-                logger.error('Converting converting JSON for details metrics failed')
-            alertsDetails = {}
-            osAlertsDetails = {}
         else:
             if osProfileDetails != '1':
                 logger.debug('Profile monitoring is not activated for ' + osRest + ':' + osRestPort)
+
+        # Processing Details
+        try:
+            alertsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.details'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+        except:
+            logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details failed', exc_info=True)
+        try:
+            osAlertsDetails = alertsDetails.json()
+            for detail in osAlertsDetails['rowset']['rows']:
+                detailsTotal = detail['rowcount']
+            OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(detailsTotal)
+        except:
+            logger.error('Converting converting JSON for details metrics failed')
+        alertsDetails = {}
+        osAlertsDetails = {}
+
 
         # Processsing Journal entrys
         try:
@@ -389,7 +403,6 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW, osProbeSel
                     match = re.search('.*using ([0-9]+)M out of ([0-9]+)M.*Available: ([0-9]+)M.*',summary)
                     OS_IMPACT_HEAP_USED_NUM.labels(heaps['Node'],osAlertsImpactHeap['rowset']['osname']).set(match.group(1))
                     OS_IMPACT_HEAP_MAX_NUM.labels(heaps['Node'],osAlertsImpactHeap['rowset']['osname']).set(match.group(2))
-                    #print('Impact Heap Node: ' + heaps['Node'] + ' | Used Memory ' + match.group(1) + ' MB out of ' + match.group(2) + ' MB.' + ' | Free System Memory: ' + match.group(3))
             except:
                 logger.error('Converting converting JSON into Impact Heap metrics failed')
             osAlertsImpactHeap = {}
@@ -398,7 +411,7 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW, osProbeSel
         if osWebGUISelfMonitoring == '1':
             # Processsing Impact Queue Selfmonitoring via Objectserver
             try:
-                alertswebGUI = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select Summary, Node, AlertKey from alerts.status where AlertGroup = \'WebGUI Status\''}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+                alertswebGUI = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select Summary, Node, AlertKey from alerts.status where AlertGroup = \'WebGUI Status\' and Type = 13'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
             except:
                 logger.error('Getting alerts.status WebGUI Event data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory failed', exc_info=True)
             try:
@@ -408,49 +421,58 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW, osProbeSel
                     if webguiAlertKey == 'DataSourceCommand':
                             summary = webguialerts['Summary']
                             if "response" in summary:
-                                match = re.search('.*SQL command (.*) response .*time: (.*) secs',summary)
+                                match = re.search('.*SQL command (.*) response time: (.*) secs',summary)
                                 if 'average' in match.group(1):
                                     OS_WEBGUI_SQL_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                                 if 'maximum' in match.group(1):
                                     OS_WEBGUI_SQL_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                     elif webguiAlertKey == 'EventData':
                             summary = webguialerts['Summary']
-                            match = re.search('.*Event Data (.*) response .*time: (.*) secs',summary)
+                            match = re.search('.*Event Data Service (.*) response time: (.*) secs',summary)
                             if 'average' in match.group(1):
                                 OS_WEBGUI_EVENT_DATA_SERVICE_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                             if 'maximum' in match.group(1):
                                 OS_WEBGUI_EVENT_DATA_SERVICE_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                     elif webguiAlertKey == 'EventSummaryData':
                             summary = webguialerts['Summary']
-                            match = re.search('.*Summary Data (.*) response .*time: (.*) secs',summary)
+                            match = re.search('.*Summary Data Service (.*) response time: (.*) secs',summary)
                             if 'average' in match.group(1):
                                 OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                             if 'maximum' in match.group(1):
                                 OS_WEBGUI_EVENT_SUMMARY_DATA_SERVICE_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                     elif webguiAlertKey == 'JVM':
                             summary = webguialerts['Summary']
-                            match = re.search('JVM.*is ([0-9]+) MB.* ([0-9]+) MB.*',summary)
-                            OS_WEBGUI_JVM_USAGE_NUM.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(1))
-                            OS_WEBGUI_JVM_MAX_NUM.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
+                            match = re.search('JVM.*is ([0-9]+|[0-9]+\,[0-9]+) MB.* ([0-9]+|[0-9]+\,[0-9]+) MB.*',summary)
+                            jvmusage = match.group(1).replace(',','')
+                            jvmmax = match.group(2).replace(',','')
+                            OS_WEBGUI_JVM_USAGE_NUM.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(jvmusage)
+                            OS_WEBGUI_JVM_MAX_NUM.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(jvmmax)
                     elif webguiAlertKey == 'MetricData':
                             summary = webguialerts['Summary']
-                            match = re.search('.*Metric Data Service (.*) response .*time: (.*) secs',summary)
+                            match = re.search('.*Metric Data Service (.*) response time: (.*) secs',summary)
                             if 'average' in match.group(1):
                                 OS_WEBGUI_METRIC_DATA_SERVICE_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                             if 'maximum' in match.group(1):
                                 OS_WEBGUI_METRIC_DATA_SERVICE_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                     elif webguiAlertKey == 'ResultsCache':
                             summary = webguialerts['Summary']
-                            match = re.search('.* ([A-Z1-9]+) cache.* ([0-9]+),.*([0-9]+)%',summary)
+                            match = re.search('([A-Z1-9]+) cache.* ([0-9]+),.*: ([0-9]+)%',summary)
                             OS_WEBGUI_DATASOURCE_CACHE_SIZE_NUM.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname'],match.group(1)).set(match.group(2))
                             OS_WEBGUI_DATASOURCE_CACHE_HITRATE_PC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname'],match.group(1)).set(match.group(3))
                     elif webguiAlertKey == 'SecurityRepository':
                             summary = webguialerts['Summary']
-                            match = re.search('.*Security Repository (.*) response .*time: (.*) secs',summary)
+                            match = re.search('.*Security Repository (.*) response time: (.*) secs',summary)
                             if 'average' in match.group(1):
                                 OS_WEBGUI_SECURITY_REPOSITORY_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                             if 'maximum' in match.group(1):
                                 OS_WEBGUI_SECURITY_REPOSITORY_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
+                    elif webguiAlertKey == 'VMM':
+                            summary = webguialerts['Summary']
+                            match = re.search('VMM sync (.*) response .*time: (.*) secs',summary)
+                            if 'average' in match.group(1):
+                                OS_WEBGUI_VMM_AVG_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
+                            if 'maximum' in match.group(1):
+                                OS_WEBGUI_VMM_MAX_RESPONSE_SEC.labels(webguialerts['Node'],osAlertswebGUI['rowset']['osname']).set(match.group(2))
                     else:
                         logger.error('Error converting WebGUI Status Alerts, unknown AlertKey: ' +  webguialerts['AlertKey'])
             except:
@@ -529,6 +551,7 @@ if __name__ == '__main__':
     logger.info('Reading initial config from os_exporter_cfg.yml')
     try:
         with open("/cfg/os_exporter_cfg.yml", 'r') as ymlfile:
+        # with open("os_exporter_cfg.yml", 'r') as ymlfile:
             exportercfg = yaml.load(ymlfile)
     except:
         logger.error('Error Reading configfile')
@@ -548,6 +571,8 @@ if __name__ == '__main__':
     except:
         logger.error('HTTP Server not started on port ' + str(exporterPort), exc_info=True)
 
+
+
     # create new threads and start them
     oscounter = 0
     logger.info('Starting threads')
@@ -555,7 +580,15 @@ if __name__ == '__main__':
     for objectserver in exportercfg['objectservers']:
         oscounter = oscounter + 1
         threadname = 'thread_' + str(objectserver['address']) + '_' + str(objectserver['port'])
-        thread = myOSDataThread(oscounter, threadname, str(objectserver['address']), str(objectserver['port']), str(objectserver['user']), str(objectserver['pw']), str(objectserver['probeSelfMon']), str(objectserver['profileDetails']), int(exportercfg['os_exporter']['contimeout']), str(objectserver['ImpactSelfMonitoring']), str(objectserver['WebGUISelfMonitoring']))
+        if str(objectserver['profileDetails']) != '':
+            osArgProfileDetails = str(objectserver['profileDetails'])
+        if str(objectserver['probeSelfMon']) != '':
+            osArgProbeSelfMon = str(objectserver['probeSelfMon'])
+        if str(objectserver['ImpactSelfMonitoring']) != '':
+            osArgImpactSelfMonitoring = str(objectserver['ImpactSelfMonitoring'])
+        if str(objectserver['WebGUISelfMonitoring']) != '':
+            osArgWebGUISelfMonitoring = str(objectserver['WebGUISelfMonitoring'])
+        thread = myOSDataThread(oscounter, threadname, str(objectserver['address']), str(objectserver['port']), str(objectserver['user']), str(objectserver['pw']), osArgProbeSelfMon , osArgProfileDetails, int(exportercfg['os_exporter']['contimeout']), osArgImpactSelfMonitoring , osArgWebGUISelfMonitoring)
         osThreads.append(thread)
         thread.start()
         time.sleep(osReqFreq / len(exportercfg['objectservers']))
