@@ -32,6 +32,10 @@ osLogPath = ''
 osReqFreq = 30
 conTimeout = 5
 exitFlag = 0
+osArgProfileDetails = 0
+osArgProbeSelfMon = 0
+osArgImpactSelfMonitoring = 0
+osArgWebGUISelfMonitoring = 0
 logger.info('Finished gathering configuration parameters')
 
 # Prometheus metric definitions
@@ -334,23 +338,25 @@ def getOsData(threadName, osRest, osRestPort, osLoginUser, osLoginPW, osProbeSel
             profiles = {}
             osProfiles = {}
 
-            # Processing Details
-            try:
-                alertsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.details'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
-            except:
-                logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details failed', exc_info=True)
-            try:
-                osAlertsDetails = alertsDetails.json()
-                for detail in osAlertsDetails['rowset']['rows']:
-                    detailsTotal = detail['rowcount']
-                OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(detailsTotal)
-            except:
-                logger.error('Converting converting JSON for details metrics failed')
-            alertsDetails = {}
-            osAlertsDetails = {}
         else:
             if osProfileDetails != '1':
                 logger.debug('Profile monitoring is not activated for ' + osRest + ':' + osRestPort)
+
+        # Processing Details
+        try:
+            alertsDetails = session.post('http://' + osRest + ':' + osRestPort + '/objectserver/restapi/sql/factory', json={'sqlcmd': 'select count(*) as rowcount from alerts.details'}, auth=(osLoginUser, osLoginPW), timeout=conTimeout)
+        except:
+            logger.error('Getting data from ' + osRest + ':' + osRestPort + '/objectserver/restapi/alerts/details failed', exc_info=True)
+        try:
+            osAlertsDetails = alertsDetails.json()
+            for detail in osAlertsDetails['rowset']['rows']:
+                detailsTotal = detail['rowcount']
+            OS_ALERTS_DETAILS_TOTAL.labels(osRest, osAlertsDetails['rowset']['osname']).set(detailsTotal)
+        except:
+            logger.error('Converting converting JSON for details metrics failed')
+        alertsDetails = {}
+        osAlertsDetails = {}
+
 
         # Processsing Journal entrys
         try:
@@ -565,6 +571,8 @@ if __name__ == '__main__':
     except:
         logger.error('HTTP Server not started on port ' + str(exporterPort), exc_info=True)
 
+
+
     # create new threads and start them
     oscounter = 0
     logger.info('Starting threads')
@@ -572,7 +580,15 @@ if __name__ == '__main__':
     for objectserver in exportercfg['objectservers']:
         oscounter = oscounter + 1
         threadname = 'thread_' + str(objectserver['address']) + '_' + str(objectserver['port'])
-        thread = myOSDataThread(oscounter, threadname, str(objectserver['address']), str(objectserver['port']), str(objectserver['user']), str(objectserver['pw']), str(objectserver['probeSelfMon']), str(objectserver['profileDetails']), int(exportercfg['os_exporter']['contimeout']), str(objectserver['ImpactSelfMonitoring']), str(objectserver['WebGUISelfMonitoring']))
+        if str(objectserver['profileDetails']) != '':
+            osArgProfileDetails = str(objectserver['profileDetails'])
+        if str(objectserver['probeSelfMon']) != '':
+            osArgProbeSelfMon = str(objectserver['probeSelfMon'])
+        if str(objectserver['ImpactSelfMonitoring']) != '':
+            osArgImpactSelfMonitoring = str(objectserver['ImpactSelfMonitoring'])
+        if str(objectserver['WebGUISelfMonitoring']) != '':
+            osArgWebGUISelfMonitoring = str(objectserver['WebGUISelfMonitoring'])
+        thread = myOSDataThread(oscounter, threadname, str(objectserver['address']), str(objectserver['port']), str(objectserver['user']), str(objectserver['pw']), osArgProbeSelfMon , osArgProfileDetails, int(exportercfg['os_exporter']['contimeout']), osArgImpactSelfMonitoring , osArgWebGUISelfMonitoring)
         osThreads.append(thread)
         thread.start()
         time.sleep(osReqFreq / len(exportercfg['objectservers']))
